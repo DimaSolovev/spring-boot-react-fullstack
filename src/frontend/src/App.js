@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useEffect, useState} from 'react';
 import { getAllStudent } from "./client";
-import { Layout, Menu, Breadcrumb } from 'antd';
+import { Layout, Menu, Breadcrumb, Table } from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -33,6 +33,29 @@ const items = [
     getItem('Files', '9', <FileOutlined />),
 ];
 
+const columns = [
+    {
+        title: 'Id',
+        dataIndex: 'id',
+        key: 'id',
+    },
+    {
+        title: 'Name',
+        dataIndex: 'name',
+        key: 'name',
+    },
+    {
+        title: 'Email',
+        dataIndex: 'email',
+        key: 'email',
+    },
+    {
+        title: 'Gender',
+        dataIndex: 'gender',
+        key: 'gender',
+    },
+];
+
 function App() {
     const [students, setStudents] = useState([]);
     const [collapsed, setCollapsed] = useState(false);
@@ -50,19 +73,21 @@ function App() {
         fetchStudents();
     }, []);
 
-    if(students.length <=0){
-        return "no data";
+    const renderStudents = students => {
+        if(students.length <= 0){
+            return 'no data available';
+        }
+        return <Table dataSource={students} columns={columns} />;
     }
-
     return (
         <Layout
             style={{
                 minHeight: '100vh',
             }}
         >
-            <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
+            <Sider collapsible collapsed={collapsed} defaultSelectedKeys={['1']} onCollapse={setCollapsed}>
                 <div className="logo" />
-                <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} />
+                <Menu theme="dark"  mode="inline" items={items} />
             </Sider>
             <Layout className="site-layout">
                 <Header
@@ -91,7 +116,7 @@ function App() {
                             minHeight: 360,
                         }}
                     >
-                        Bill is a cat.
+                        {renderStudents(students)}
                     </div>
                 </Content>
                 <Footer
