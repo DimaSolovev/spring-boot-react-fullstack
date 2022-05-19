@@ -1,14 +1,16 @@
 import './App.css';
 import React, {useEffect, useState} from 'react';
 import { getAllStudent } from "./client";
-import { Layout, Menu, Breadcrumb, Table } from 'antd';
+import {Layout, Menu, Breadcrumb, Table, Spin} from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
     FileOutlined,
     TeamOutlined,
     UserOutlined,
+    LoadingOutlined
 } from '@ant-design/icons';
+import Empty from "antd/es/empty";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -56,9 +58,12 @@ const columns = [
     },
 ];
 
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
 function App() {
     const [students, setStudents] = useState([]);
     const [collapsed, setCollapsed] = useState(false);
+    const [fetching, setFetching] = useState(true);
 
     const fetchStudents = () =>
         getAllStudent()
@@ -66,6 +71,7 @@ function App() {
             .then(data => {
                 console.log(data);
                 setStudents(data);
+                setFetching(false);
             });
 
     useEffect(() => {
@@ -73,11 +79,22 @@ function App() {
         fetchStudents();
     }, []);
 
-    const renderStudents = students => {
-        if(students.length <= 0){
-            return 'no data available';
+    const renderStudents = () => {
+        if(fetching){
+            return <Spin indicator={antIcon} />
         }
-        return <Table dataSource={students} columns={columns} />;
+        if(students.length <= 0){
+            return <Empty />;
+        }
+        return <Table
+            dataSource={students}
+            columns={columns}
+            bordered
+            title={() => 'Students'}
+            pagination={{ pageSize: 50 }}
+            scroll={{ y: 240 }}
+            rowKey={(student) => student.id}
+        />;
     }
     return (
         <Layout
@@ -85,7 +102,7 @@ function App() {
                 minHeight: '100vh',
             }}
         >
-            <Sider collapsible collapsed={collapsed} defaultSelectedKeys={['1']} onCollapse={setCollapsed}>
+            <Sider collapsible collapsed={collapsed} defaultselectedkeys={['1']} onCollapse={setCollapsed}>
                 <div className="logo" />
                 <Menu theme="dark"  mode="inline" items={items} />
             </Sider>
@@ -116,7 +133,7 @@ function App() {
                             minHeight: 360,
                         }}
                     >
-                        {renderStudents(students)}
+                        {renderStudents()}
                     </div>
                 </Content>
                 <Footer
@@ -124,7 +141,7 @@ function App() {
                         textAlign: 'center',
                     }}
                 >
-                    Ant Design ©2018 Created by Ant UED
+                    By Dmitrii ©2021
                 </Footer>
             </Layout>
         </Layout>
