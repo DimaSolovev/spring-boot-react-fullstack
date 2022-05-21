@@ -135,14 +135,7 @@ function App() {
                     >
                         {renderStudents()}
                     </div>
-                </Content>static
-                asset-manifest.json
-                favicon.ico
-                index.html
-                logo192.png
-                logo512.png
-                manifest.json
-                robots.txt
+                </Content>
                 <Footer
                     style={{
                         textAlign: 'center',
