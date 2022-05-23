@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useEffect, useState} from 'react';
-import { getAllStudent } from "./client";
-import {Layout, Menu, Breadcrumb, Table, Spin, Button, Badge, Tag} from 'antd';
+import { getAllStudent, deleteStudent } from "./client";
+import {Layout, Menu, Breadcrumb, Table, Spin, Button, Badge, Tag, Radio, Popconfirm} from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -14,8 +14,25 @@ import {
 import Empty from "antd/es/empty";
 import StudentDrawerForm from "./StudentDrawerForm";
 import Avatar from "antd/es/avatar";
+import {errorNotification, successNotification} from "./Notification";
 
 const { Header, Content, Footer, Sider } = Layout;
+
+const removeStudent = (studentId, callback) => {
+    deleteStudent(studentId).then(() => {
+        successNotification("Student deleted", `Student with ${studentId} was deleted`);
+        callback();
+    }).catch(err => {
+        err.response.json().then(res => {
+            console.log(res);
+            errorNotification(
+                "There was an issue",
+                `${res.message} [${res.status}] [${res.error}]`
+            )
+        });
+    })
+}
+
 const TheAvatar = ({name}) => {
     let trim = name.trim();
     if (trim.length === 0) {
@@ -51,7 +68,7 @@ const items = [
     getItem('Files', '9', <FileOutlined />),
 ];
 
-const columns = [
+const columns = fetchStudents => [
     {
         title: '',
         dataIndex: 'avatar',
@@ -79,6 +96,22 @@ const columns = [
         dataIndex: 'gender',
         key: 'gender',
     },
+    {
+        title: 'Actions',
+        key: 'actions',
+        render: (text, student) =>
+            <Radio.Group>
+                <Popconfirm
+                    placement='topRight'
+                    title={`Are you sure to delete ${student.name}`}
+                    onConfirm={() => removeStudent(student.id, fetchStudents)}
+                    okText='Yes'
+                    cancelText='No'>
+                    <Radio.Button value="small">Delete</Radio.Button>
+                </Popconfirm>
+                <Radio.Button onClick={() => alert("TODO: Implement edit student")} value="small">Edit</Radio.Button>
+            </Radio.Group>
+    }
 ];
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -118,7 +151,7 @@ function App() {
                     />
                     <Table
                         dataSource={students}
-                        columns={columns}
+                        columns={columns(fetchStudents)}
                         bordered
                         title={() =>
                             <>
