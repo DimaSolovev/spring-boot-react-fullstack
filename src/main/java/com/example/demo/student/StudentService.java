@@ -15,10 +15,18 @@ public class StudentService {
     }
 
     public void addStudent(Student student) {
+        Boolean existsEmail  = studentRepository.selectExistsEmail(student.getEmail());
+        if(existsEmail){
+            throw new IllegalStateException("Email " + student.getEmail() + " taken");
+        }
         studentRepository.save(student);
     }
 
-    public void deleteStudent(Long id) {
-        studentRepository.deleteById(id);
+    public void deleteStudent(Long studentId) {
+
+        if(!studentRepository.existsById(studentId)){
+            throw new IllegalStateException("Student with id " + studentId + " does not exists");
+        }
+        studentRepository.deleteById(studentId);
     }
 }
