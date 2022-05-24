@@ -3,6 +3,9 @@ package com.example.demo.student;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,9 +26,15 @@ public class Student {
             generator = "student_sequence",
             strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotBlank
+    @Column(nullable = false)
     private String name;
+    @Email
+    @Column(nullable = false, unique = true)
     private String email;
     @Enumerated(EnumType.STRING)
+    @NotNull
+    @Column(nullable = false)
     private Gender gender;
 
     public Student(String name, String email, Gender gender) {

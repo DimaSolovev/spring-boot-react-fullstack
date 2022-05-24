@@ -3,6 +3,7 @@ package com.example.demo.student;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -18,7 +19,7 @@ public class StudentController {
     }
 
     @PostMapping
-    void addStudent(@RequestBody Student student) {
+    void addStudent(@Valid @RequestBody Student student) {
         studentService.addStudent(student);
     }
 
