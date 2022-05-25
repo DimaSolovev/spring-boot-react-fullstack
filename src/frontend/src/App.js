@@ -1,7 +1,7 @@
 import './App.css';
 import React, {useEffect, useState} from 'react';
 import { getAllStudent, deleteStudent } from "./client";
-import {Layout, Menu, Breadcrumb, Table, Spin, Button, Badge, Tag, Radio, Popconfirm, Image} from 'antd';
+import {Layout, Menu, Breadcrumb, Table, Spin, Button, Badge, Tag, Radio, Popconfirm, Image, Divider} from 'antd';
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -238,6 +238,11 @@ function App() {
                         width={75}
                         src={"https://user-images.githubusercontent.com/76641018/170160174-63cf712a-a166-4720-a933-5a534512fe9a.jpg"}
                     />
+                    <Divider>
+                        <a href="https://github.com/DimaSolovev/spring-boot-react-fullstack-new">
+                            Click
+                        </a>
+                    </Divider>
                 </Footer>
             </Layout>
         </Layout>
