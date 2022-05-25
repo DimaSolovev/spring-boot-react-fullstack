@@ -240,7 +240,7 @@ function App() {
                     />
                     <Divider>
                         <a href="https://github.com/DimaSolovev/spring-boot-react-fullstack-new">
-                            Click
+                            Click here to get github source repo
                         </a>
                     </Divider>
                 </Footer>
