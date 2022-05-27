@@ -23,7 +23,8 @@ Slack отправляет в указанные каналы оповещени
 ![maven](https://user-images.githubusercontent.com/76641018/170707382-762b0ef5-c197-451e-ba2d-830587d83385.png)
 <br>
 <b>CICD GitHub Actions</b>
-![ci](https://user-images.githubusercontent.com/76641018/170712453-fd7c3b1d-2d10-41ee-afe2-5e1b248081ce.png)
+![ci](https://user-images.githubusercontent.com/76641018/170717795-f253ea0b-731e-4d5e-9ddf-cfd04bfdab42.png)
 <br>
 <b>AWS deploy</b>
 ![aws](https://user-images.githubusercontent.com/76641018/170714367-8b549edd-d848-4bd8-b3dd-158cd8135c69.png)
+
